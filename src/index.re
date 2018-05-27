@@ -1,23 +1,8 @@
-/* file: Greeting.re */
-module Greeting = {
-  let component = ReasonReact.statelessComponent("Greeting");
-
-  /* underscores before names indicate unused variables. We name them for clarity */
-  let make = (~name, _children) => {
-    ...component,
-    render: _self =>
-      <button> (ReasonReact.string("Hello " ++ name ++ "!")) </button>,
-  };
-};
-
-/* file: Index.re */
-
-ReactDOMRe.renderToElementWithId(<Greeting name="John" />, "main");
-
 module ComposableMap = {
   [@bs.module "react-simple-maps"]
   external composableMap : ReasonReact.reactClass = "ComposableMap";
 
+  [@bs.deriving abstract]
   type projectionConfigT = {
     scale: int,
     rotation: list(int),
@@ -36,3 +21,13 @@ module ComposableMap = {
       children,
     );
 };
+ReactDOMRe.renderToElementWithId(
+  <ComposableMap
+    projectionConfig=(
+      ComposableMap.projectionConfigT(~scale=205, ~rotation=[(-11), 0, 0])
+    )
+    width=980
+    height=551
+  />,
+  "main",
+);
