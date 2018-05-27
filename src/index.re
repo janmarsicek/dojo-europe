@@ -73,8 +73,10 @@ module Geography = {
     pressed: cssT,
   };
   [@bs.deriving abstract]
+  type geographyT = {id: string};
+  [@bs.deriving abstract]
   type jsPropsT = {
-    geography: string,
+    geography: geographyT,
     projection: string,
     style: styleT,
   };
@@ -98,40 +100,42 @@ ReactDOMRe.renderToElementWithId(
       <Geographies geography="/world-50m.json">
         (
           (geographies, projection) =>
-            Array.mapi(
-              (i, geography) =>
-                <Geography
-                  key=(string_of_int(i))
-                  geography
-                  projection
-                  style=(
-                    Geography.styleT(
-                      ~default=
-                        Geography.cssT(
-                          ~fill="#ECEFF1",
-                          ~stroke="#607D8B",
-                          ~strokeWidth=0.75,
-                          ~outline="none",
-                        ),
-                      ~hover=
-                        Geography.cssT(
-                          ~fill="#607D8B",
-                          ~stroke="#607D8B",
-                          ~strokeWidth=0.75,
-                          ~outline="none",
-                        ),
-                      ~pressed=
-                        Geography.cssT(
-                          ~fill="#FF5722",
-                          ~stroke="#607D8B",
-                          ~strokeWidth=0.75,
-                          ~outline="none",
-                        ),
-                    )
-                  )
-                />,
-              geographies,
-            )
+            geographies
+            |> Array.to_list
+            |> List.filter(geography => Geography.id(geography) != "ATA")
+            |> Array.of_list
+            |> Array.mapi((i, geography) =>
+                 <Geography
+                   key=(string_of_int(i))
+                   geography
+                   projection
+                   style=(
+                     Geography.styleT(
+                       ~default=
+                         Geography.cssT(
+                           ~fill="#ECEFF1",
+                           ~stroke="#607D8B",
+                           ~strokeWidth=0.75,
+                           ~outline="none",
+                         ),
+                       ~hover=
+                         Geography.cssT(
+                           ~fill="#607D8B",
+                           ~stroke="#607D8B",
+                           ~strokeWidth=0.75,
+                           ~outline="none",
+                         ),
+                       ~pressed=
+                         Geography.cssT(
+                           ~fill="#FF5722",
+                           ~stroke="#607D8B",
+                           ~strokeWidth=0.75,
+                           ~outline="none",
+                         ),
+                     )
+                   )
+                 />
+               )
         )
       </Geographies>
     </ZoomableGroup>
