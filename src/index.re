@@ -90,55 +90,57 @@ module Geography = {
 };
 
 ReactDOMRe.renderToElementWithId(
-  <ComposableMap
-    projectionConfig=(
-      ComposableMap.projectionConfigT(~scale=205, ~rotation=[(-11), 0, 0])
-    )
-    width=980
-    height=551>
-    <ZoomableGroup center=[0, 20] disablePanning=true>
-      <Geographies geography="/world-50m.json">
-        (
-          (geographies, projection) =>
-            geographies
-            |> Array.to_list
-            |> List.filter(geography => Geography.id(geography) != "ATA")
-            |> Array.of_list
-            |> Array.mapi((i, geography) =>
-                 <Geography
-                   key=(string_of_int(i))
-                   geography
-                   projection
-                   style=(
-                     Geography.styleT(
-                       ~default=
-                         Geography.cssT(
-                           ~fill="#ECEFF1",
-                           ~stroke="#607D8B",
-                           ~strokeWidth=0.75,
-                           ~outline="none",
-                         ),
-                       ~hover=
-                         Geography.cssT(
-                           ~fill="#607D8B",
-                           ~stroke="#607D8B",
-                           ~strokeWidth=0.75,
-                           ~outline="none",
-                         ),
-                       ~pressed=
-                         Geography.cssT(
-                           ~fill="#FF5722",
-                           ~stroke="#607D8B",
-                           ~strokeWidth=0.75,
-                           ~outline="none",
-                         ),
+  <Wrapper>
+    <ComposableMap
+      projectionConfig=(
+        ComposableMap.projectionConfigT(~scale=205, ~rotation=[(-11), 0, 0])
+      )
+      width=980
+      height=551>
+      <ZoomableGroup center=[0, 20] disablePanning=true>
+        <Geographies geography="/world-50m.json">
+          (
+            (geographies, projection) =>
+              geographies
+              |> Array.to_list
+              |> List.filter(geography => Geography.id(geography) != "ATA")
+              |> Array.of_list
+              |> Array.mapi((i, geography) =>
+                   <Geography
+                     key=(string_of_int(i))
+                     geography
+                     projection
+                     style=(
+                       Geography.styleT(
+                         ~default=
+                           Geography.cssT(
+                             ~fill="#ECEFF1",
+                             ~stroke="#607D8B",
+                             ~strokeWidth=0.75,
+                             ~outline="none",
+                           ),
+                         ~hover=
+                           Geography.cssT(
+                             ~fill="#607D8B",
+                             ~stroke="#607D8B",
+                             ~strokeWidth=0.75,
+                             ~outline="none",
+                           ),
+                         ~pressed=
+                           Geography.cssT(
+                             ~fill="#FF5722",
+                             ~stroke="#607D8B",
+                             ~strokeWidth=0.75,
+                             ~outline="none",
+                           ),
+                       )
                      )
-                   )
-                 />
-               )
-        )
-      </Geographies>
-    </ZoomableGroup>
-  </ComposableMap>,
+                   />
+                 )
+          )
+        </Geographies>
+      </ZoomableGroup>
+    </ComposableMap>
+  </Wrapper>,
   "main",
 );
