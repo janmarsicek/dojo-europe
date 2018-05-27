@@ -55,6 +55,38 @@ module Geographies = {
     );
 };
 
+module Geography = {
+  [@bs.module "react-simple-maps"]
+  external geographyM : ReasonReact.reactClass = "Geography";
+
+  [@bs.deriving abstract]
+  type cssT = {
+    fill: string,
+    stroke: string,
+    strokeWidth: float,
+    outline: string,
+  };
+  [@bs.deriving abstract]
+  type styleT = {
+    default: cssT,
+    hover: cssT,
+    pressed: cssT,
+  };
+  [@bs.deriving abstract]
+  type jsPropsT = {
+    geography: string,
+    projection: string,
+    style: styleT,
+  };
+
+  let make = (~geography, ~projection, ~style, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=geographyM,
+      ~props=jsPropsT(~geography, ~projection, ~style),
+      children,
+    );
+};
+
 ReactDOMRe.renderToElementWithId(
   <ComposableMap
     projectionConfig=(
@@ -63,7 +95,45 @@ ReactDOMRe.renderToElementWithId(
     width=980
     height=551>
     <ZoomableGroup center=[0, 20] disablePanning=true>
-      <Geographies geography="/world-50m.json"> (() => <div />) </Geographies>
+      <Geographies geography="/world-50m.json">
+        (
+          (geographies, projection) =>
+            Array.mapi(
+              (i, geography) =>
+                <Geography
+                  key=(string_of_int(i))
+                  geography
+                  projection
+                  style=(
+                    Geography.styleT(
+                      ~default=
+                        Geography.cssT(
+                          ~fill="#ECEFF1",
+                          ~stroke="#607D8B",
+                          ~strokeWidth=0.75,
+                          ~outline="none",
+                        ),
+                      ~hover=
+                        Geography.cssT(
+                          ~fill="#607D8B",
+                          ~stroke="#607D8B",
+                          ~strokeWidth=0.75,
+                          ~outline="none",
+                        ),
+                      ~pressed=
+                        Geography.cssT(
+                          ~fill="#FF5722",
+                          ~stroke="#607D8B",
+                          ~strokeWidth=0.75,
+                          ~outline="none",
+                        ),
+                    )
+                  )
+                />,
+              geographies,
+            )
+        )
+      </Geographies>
     </ZoomableGroup>
   </ComposableMap>,
   "main",
