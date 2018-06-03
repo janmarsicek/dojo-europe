@@ -5,6 +5,8 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Marker$MyProjectName = require("./Marker.bs.js");
+var Markers$MyProjectName = require("./Markers.bs.js");
 var Wrapper$MyProjectName = require("./Wrapper.bs.js");
 var Geography$MyProjectName = require("./Geography.bs.js");
 var Geographies$MyProjectName = require("./Geographies.bs.js");
@@ -47,11 +49,7 @@ function make(name, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
               return React.createElement("div", undefined, React.createElement("h1", undefined, "Hello " + (name + "!")), ReasonReact.element(/* None */0, /* None */0, Wrapper$MyProjectName.make((function (markers) {
-                                    return React.createElement("div", undefined, $$Array.mapi((function (i, marker) {
-                                                      return React.createElement("div", {
-                                                                  key: String(i)
-                                                                }, marker.username);
-                                                    }), markers), ReasonReact.element(/* None */0, /* None */0, ComposableMap$MyProjectName.make(980, 551, {
+                                    return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, ComposableMap$MyProjectName.make(980, 551, {
                                                         scale: 205,
                                                         rotation: /* :: */[
                                                           -11,
@@ -69,7 +67,8 @@ function make(name, _) {
                                                                     20,
                                                                     /* [] */0
                                                                   ]
-                                                                ], true, /* array */[ReasonReact.element(/* None */0, /* None */0, Geographies$MyProjectName.make("/world-50m.json", /* array */[(function (geographies, projection) {
+                                                                ], true, /* array */[
+                                                                  ReasonReact.element(/* None */0, /* None */0, Geographies$MyProjectName.make("/world-50m.json", /* array */[(function (geographies, projection) {
                                                                                 return $$Array.mapi((function (i, geography) {
                                                                                               return ReasonReact.element(/* Some */[String(i)], /* None */0, Geography$MyProjectName.make(geography, projection, {
                                                                                                               default: defaultStyle,
@@ -79,7 +78,40 @@ function make(name, _) {
                                                                                             }), $$Array.of_list(List.filter((function (geography) {
                                                                                                         return geography.id !== "ATA";
                                                                                                       }))($$Array.to_list(geographies))));
-                                                                              })]))]))])));
+                                                                              })])),
+                                                                  ReasonReact.element(/* None */0, /* None */0, Markers$MyProjectName.make(/* array */[$$Array.mapi((function (i, marker) {
+                                                                                    return ReasonReact.element(/* Some */[String(i)], /* None */0, Marker$MyProjectName.make(marker, {
+                                                                                                    default: {
+                                                                                                      fill: "#FF5722"
+                                                                                                    },
+                                                                                                    hover: {
+                                                                                                      fill: "#FFFFFF"
+                                                                                                    },
+                                                                                                    pressed: {
+                                                                                                      fill: "#FF5722"
+                                                                                                    }
+                                                                                                  }, /* array */[
+                                                                                                    React.createElement("circle", {
+                                                                                                          style: {
+                                                                                                            opacity: "0.9",
+                                                                                                            stroke: "#FF5722",
+                                                                                                            strokeWidth: "3"
+                                                                                                          },
+                                                                                                          cx: "0",
+                                                                                                          cy: "0",
+                                                                                                          r: "10"
+                                                                                                        }),
+                                                                                                    React.createElement("text", {
+                                                                                                          style: {
+                                                                                                            fontFamily: "Roboto, sans-serif",
+                                                                                                            fill: "#607D8B"
+                                                                                                          },
+                                                                                                          textAnchor: "middle",
+                                                                                                          y: String(marker.markerOffset)
+                                                                                                        }, marker.name)
+                                                                                                  ]));
+                                                                                  }), markers)]))
+                                                                ]))])));
                                   }), /* array */[])));
             }),
           /* initialState */component[/* initialState */10],

@@ -38,7 +38,14 @@ let make = (~render, _children) => {
 
     <div>
       <h2>(ReasonReact.string(foo))</h2>
-      (render(markers))
+      (render(markers |> Array.map(item => {
+        let (long, lat) = Fetcher.location(item);
+        Marker.markerT(
+          ~name=Fetcher.username(item),
+          ~coordinates=(lat, long),
+          ~markerOffset=-25
+        )
+      })))
       /* (children(markers)) */
     </div>
   },
